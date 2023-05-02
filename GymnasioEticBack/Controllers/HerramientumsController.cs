@@ -24,6 +24,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Herramientum>>> GetHerramienta()
         {
+          if (_context.Herramienta == null)
+          {
+              return NotFound();
+          }
             return await _context.Herramienta.ToListAsync();
         }
 
@@ -31,6 +35,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Herramientum>> GetHerramientum(int id)
         {
+          if (_context.Herramienta == null)
+          {
+              return NotFound();
+          }
             var herramientum = await _context.Herramienta.FindAsync(id);
 
             if (herramientum == null)
@@ -77,6 +85,10 @@ namespace GymnasioEticBack.Controllers
         [HttpPost]
         public async Task<ActionResult<Herramientum>> PostHerramientum(Herramientum herramientum)
         {
+          if (_context.Herramienta == null)
+          {
+              return Problem("Entity set 'NewGymEtitcContext.Herramienta'  is null.");
+          }
             _context.Herramienta.Add(herramientum);
             await _context.SaveChangesAsync();
 
@@ -87,6 +99,10 @@ namespace GymnasioEticBack.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHerramientum(int id)
         {
+            if (_context.Herramienta == null)
+            {
+                return NotFound();
+            }
             var herramientum = await _context.Herramienta.FindAsync(id);
             if (herramientum == null)
             {
@@ -101,7 +117,7 @@ namespace GymnasioEticBack.Controllers
 
         private bool HerramientumExists(int id)
         {
-            return _context.Herramienta.Any(e => e.Id == id);
+            return (_context.Herramienta?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

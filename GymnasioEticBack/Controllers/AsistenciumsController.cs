@@ -24,6 +24,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Asistencium>>> GetAsistencia()
         {
+          if (_context.Asistencia == null)
+          {
+              return NotFound();
+          }
             return await _context.Asistencia.ToListAsync();
         }
 
@@ -31,6 +35,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Asistencium>> GetAsistencium(int id)
         {
+          if (_context.Asistencia == null)
+          {
+              return NotFound();
+          }
             var asistencium = await _context.Asistencia.FindAsync(id);
 
             if (asistencium == null)
@@ -77,6 +85,10 @@ namespace GymnasioEticBack.Controllers
         [HttpPost]
         public async Task<ActionResult<Asistencium>> PostAsistencium(Asistencium asistencium)
         {
+          if (_context.Asistencia == null)
+          {
+              return Problem("Entity set 'NewGymEtitcContext.Asistencia'  is null.");
+          }
             _context.Asistencia.Add(asistencium);
             await _context.SaveChangesAsync();
 
@@ -87,6 +99,10 @@ namespace GymnasioEticBack.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsistencium(int id)
         {
+            if (_context.Asistencia == null)
+            {
+                return NotFound();
+            }
             var asistencium = await _context.Asistencia.FindAsync(id);
             if (asistencium == null)
             {
@@ -101,7 +117,7 @@ namespace GymnasioEticBack.Controllers
 
         private bool AsistenciumExists(int id)
         {
-            return _context.Asistencia.Any(e => e.IdCita == id);
+            return (_context.Asistencia?.Any(e => e.IdCita == id)).GetValueOrDefault();
         }
     }
 }

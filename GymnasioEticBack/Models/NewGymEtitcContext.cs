@@ -35,7 +35,7 @@ public partial class NewGymEtitcContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-4T1G633G; Database=newGymETITC; Trusted_Connection=True; TrustServerCertificate=Yes ");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-HJFI9OQ; Database=newGymETITC; Trusted_Connection=True; TrustServerCertificate=Yes ");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -132,12 +132,11 @@ public partial class NewGymEtitcContext : DbContext
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("descripcion");
-            entity.Property(e => e.ImagenAsociada)
-                .HasMaxLength(255)
-                .IsUnicode(false);
             entity.Property(e => e.Nombre)
                 .HasMaxLength(45)
                 .IsUnicode(false);
+            entity.Property(e => e.ImagenAsociada).HasColumnType("varbinary(max)").HasColumnName("ImagenAsociada");
+
         });
 
         modelBuilder.Entity<Persona>(entity =>
