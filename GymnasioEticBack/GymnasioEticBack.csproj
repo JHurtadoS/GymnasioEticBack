@@ -8,6 +8,40 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\**" />
+    <Content Remove="Controllers\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+    <None Remove="Controllers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="AsistenciumsController.cs" />
+    <Compile Remove="EjerciciosController.cs" />
+    <Compile Remove="EjerciciosHasRutinasController.cs" />
+    <Compile Remove="EventoesController.cs" />
+    <Compile Remove="HerramientumsController.cs" />
+    <Compile Remove="Login.cs" />
+    <Compile Remove="PersonaHasRutinasController.cs" />
+    <Compile Remove="PersonasController.cs" />
+    <Compile Remove="RutinasController.cs" />
+    <Compile Remove="UsuariosController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Controllers\AsistenciumsController.cs" />
+    <Compile Include="Controllers\EjerciciosController.cs" />
+    <Compile Include="Controllers\EjerciciosHasRutinasController.cs" />
+    <Compile Include="Controllers\EventoesController.cs" />
+    <Compile Include="Controllers\HerramientumsController.cs" />
+    <Compile Include="Controllers\Login.cs" />
+    <Compile Include="Controllers\PersonaHasRutinasController.cs" />
+    <Compile Include="Controllers\PersonasController.cs" />
+    <Compile Include="Controllers\RutinasController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
@@ -21,6 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="NewFolder1\" />
     <Folder Include="NewFolder\" />
     <Folder Include="Properties\NewFolder\" />

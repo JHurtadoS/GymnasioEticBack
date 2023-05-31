@@ -135,8 +135,6 @@ public partial class NewGymEtitcContext : DbContext
             entity.Property(e => e.Nombre)
                 .HasMaxLength(45)
                 .IsUnicode(false);
-            entity.Property(e => e.ImagenAsociada).HasColumnType("varbinary(max)").HasColumnName("ImagenAsociada");
-
         });
 
         modelBuilder.Entity<Persona>(entity =>
@@ -151,6 +149,7 @@ public partial class NewGymEtitcContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("apellidos");
             entity.Property(e => e.Celular).HasColumnName("celular");
+            entity.Property(e => e.Desahabilitado).HasColumnName("desahabilitado");
             entity.Property(e => e.Documento).HasColumnName("documento");
             entity.Property(e => e.Genero)
                 .HasMaxLength(100)

@@ -99,29 +99,6 @@ namespace GymnasioEticBack.Controllers
             return NoContent();
         }
 
-
-        [HttpGet("nombre/{nombre}")]
-        public async Task<ActionResult<Usuario>> GetUsuarioPorNombre(string correo)
-        {
-            if (_context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios.FirstOrDefaultAsync(p => p.Correo == correo);
-
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return usuario;
-        }
-
-
-
-
-
         private bool UsuarioExists(int id)
         {
             return _context.Usuarios.Any(e => e.IdUsuario == id);

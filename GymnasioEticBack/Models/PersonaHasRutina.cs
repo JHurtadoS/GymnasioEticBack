@@ -11,7 +11,7 @@ public partial class PersonaHasRutina
 
     public int RutinaId { get; set; }
 
-    public virtual Rutina Rutina { get; set; } = null!;
+    public virtual Rutina? Rutina { get; set; } = null!;
 
-    public virtual Persona UsuarioIdUsuarioNavigation { get; set; } = null!;
+    public virtual Persona? UsuarioIdUsuarioNavigation { get; set; } = null!;
 }

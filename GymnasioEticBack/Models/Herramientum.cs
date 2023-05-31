@@ -13,7 +13,7 @@ public partial class Herramientum
 
     public byte[]? ImagenAsociada { get; set; }
 
-    public virtual ICollection<Ejercicio> Ejercicios { get; } = new List<Ejercicio>();
+    public virtual ICollection<Ejercicio>? Ejercicios { get; } = new List<Ejercicio>();
 
-    public virtual ICollection<EjerciciosHasRutina> EjerciciosHasRutinas { get; } = new List<EjerciciosHasRutina>();
+    public virtual ICollection<EjerciciosHasRutina>? EjerciciosHasRutinas { get; } = new List<EjerciciosHasRutina>();
 }

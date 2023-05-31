@@ -24,10 +24,6 @@ namespace GymnasioEticBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonaHasRutina>>> GetPersonaHasRutinas()
         {
-          if (_context.PersonaHasRutinas == null)
-          {
-              return NotFound();
-          }
             return await _context.PersonaHasRutinas.ToListAsync();
         }
 
@@ -35,10 +31,6 @@ namespace GymnasioEticBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PersonaHasRutina>> GetPersonaHasRutina(int id)
         {
-          if (_context.PersonaHasRutinas == null)
-          {
-              return NotFound();
-          }
             var personaHasRutina = await _context.PersonaHasRutinas.FindAsync(id);
 
             if (personaHasRutina == null)
@@ -85,10 +77,6 @@ namespace GymnasioEticBack.Controllers
         [HttpPost]
         public async Task<ActionResult<PersonaHasRutina>> PostPersonaHasRutina(PersonaHasRutina personaHasRutina)
         {
-          if (_context.PersonaHasRutinas == null)
-          {
-              return Problem("Entity set 'NewGymEtitcContext.PersonaHasRutinas'  is null.");
-          }
             _context.PersonaHasRutinas.Add(personaHasRutina);
             await _context.SaveChangesAsync();
 
@@ -99,10 +87,6 @@ namespace GymnasioEticBack.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePersonaHasRutina(int id)
         {
-            if (_context.PersonaHasRutinas == null)
-            {
-                return NotFound();
-            }
             var personaHasRutina = await _context.PersonaHasRutinas.FindAsync(id);
             if (personaHasRutina == null)
             {
@@ -117,7 +101,7 @@ namespace GymnasioEticBack.Controllers
 
         private bool PersonaHasRutinaExists(int id)
         {
-            return (_context.PersonaHasRutinas?.Any(e => e.RutinasPersona == id)).GetValueOrDefault();
+            return _context.PersonaHasRutinas.Any(e => e.RutinasPersona == id);
         }
     }
 }

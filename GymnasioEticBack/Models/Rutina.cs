@@ -11,7 +11,7 @@ public partial class Rutina
 
     public string? TipRutina { get; set; }
 
-    public virtual ICollection<EjerciciosHasRutina> EjerciciosHasRutinas { get; } = new List<EjerciciosHasRutina>();
+    public virtual ICollection<EjerciciosHasRutina>? EjerciciosHasRutinas { get; } = new List<EjerciciosHasRutina>();
 
-    public virtual ICollection<PersonaHasRutina> PersonaHasRutinas { get; } = new List<PersonaHasRutina>();
+    public virtual ICollection<PersonaHasRutina>? PersonaHasRutinas { get; } = new List<PersonaHasRutina>();
 }
