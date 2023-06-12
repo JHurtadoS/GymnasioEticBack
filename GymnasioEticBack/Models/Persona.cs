@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GymnasioEticBack.Models;
 
 public partial class Persona
 {
-    public int? IdUsuario { get; set; }
+    public int Id { get; set; }
 
     public int PersonaIdUsuario { get; set; }
 
@@ -33,8 +32,4 @@ public partial class Persona
     public virtual ICollection<PersonaHasRutina>? PersonaHasRutinas { get; } = new List<PersonaHasRutina>();
 
     public virtual Usuario? PersonaIdUsuarioNavigation { get; set; } = null!;
-
-
-    
-    //public Usuario? PersonaIdUsuarioNavigation { get; set; }
 }

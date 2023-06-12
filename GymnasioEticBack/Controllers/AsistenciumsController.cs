@@ -13,9 +13,9 @@ namespace GymnasioEticBack.Controllers
     [ApiController]
     public class AsistenciumsController : ControllerBase
     {
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public AsistenciumsController(NewGymEtitcContext context)
+        public AsistenciumsController(BaseArreglaaContext context)
         {
             _context = context;
         }
@@ -87,7 +87,7 @@ namespace GymnasioEticBack.Controllers
         {
           if (_context.Asistencia == null)
           {
-              return Problem("Entity set 'NewGymEtitcContext.Asistencia'  is null.");
+              return Problem("Entity set 'BaseArreglaaContext.Asistencia'  is null.");
           }
             _context.Asistencia.Add(asistencium);
             await _context.SaveChangesAsync();

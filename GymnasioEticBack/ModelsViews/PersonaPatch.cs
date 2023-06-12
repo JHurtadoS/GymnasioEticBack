@@ -2,7 +2,7 @@
 {
     public class PersonaPatch
     {
-        public int? PersonaIdUsuario { get; set; }
+        public int? ID { get; set; }
 
         public int? Documento { get; set; }
 

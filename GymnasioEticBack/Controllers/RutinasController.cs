@@ -13,9 +13,9 @@ namespace GymnasioEticBack.Controllers
     [ApiController]
     public class RutinasController : ControllerBase
     {
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public RutinasController(NewGymEtitcContext context)
+        public RutinasController(BaseArreglaaContext context)
         {
             _context = context;
         }
@@ -24,6 +24,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rutina>>> GetRutinas()
         {
+          if (_context.Rutinas == null)
+          {
+              return NotFound();
+          }
             return await _context.Rutinas.ToListAsync();
         }
 
@@ -31,6 +35,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Rutina>> GetRutina(int id)
         {
+          if (_context.Rutinas == null)
+          {
+              return NotFound();
+          }
             var rutina = await _context.Rutinas.FindAsync(id);
 
             if (rutina == null)
@@ -77,6 +85,10 @@ namespace GymnasioEticBack.Controllers
         [HttpPost]
         public async Task<ActionResult<Rutina>> PostRutina(Rutina rutina)
         {
+          if (_context.Rutinas == null)
+          {
+              return Problem("Entity set 'BaseArreglaaContext.Rutinas'  is null.");
+          }
             _context.Rutinas.Add(rutina);
             await _context.SaveChangesAsync();
 
@@ -87,6 +99,10 @@ namespace GymnasioEticBack.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRutina(int id)
         {
+            if (_context.Rutinas == null)
+            {
+                return NotFound();
+            }
             var rutina = await _context.Rutinas.FindAsync(id);
             if (rutina == null)
             {
@@ -101,7 +117,7 @@ namespace GymnasioEticBack.Controllers
 
         private bool RutinaExists(int id)
         {
-            return _context.Rutinas.Any(e => e.Id == id);
+            return (_context.Rutinas?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

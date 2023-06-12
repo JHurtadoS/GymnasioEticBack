@@ -16,40 +16,37 @@ namespace GymnasioEticBack.Controllers
     [ApiController]
     public class PersonasController : ControllerBase
     {
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public PersonasController(NewGymEtitcContext context)
+        public PersonasController(BaseArreglaaContext context)
         {
             _context = context;
         }
 
         // GET: api/Personas
         [HttpGet]
-        public object getInnerJoint()
+        public async Task<ActionResult<IEnumerable<PersonasMV>>> GetPersonas()
         {
             var query = _context.Personas
                 .Join(_context.Usuarios,
-                    personas => personas.IdUsuario,
+                    personas => personas.PersonaIdUsuario,
                     user => user.IdUsuario,
                     (respPer, respUser) => new PersonasMV
                     {
-                        IdUsuario = (int)respPer.IdUsuario,
+                        Id = (int)respPer.Id,
                         Documento = respPer.Documento,
                         Nombre = respPer.Nombre,
-                        PersonaIdUsuario = respUser.Correo,
+                        correoUsuario = respUser.Correo,
                         Apellidos = respPer.Apellidos,
                         Celular = respPer.Celular,
                         Genero = respPer.Genero,
                         Rh = respPer.Rh,
                         Rol = respPer.Rol,
-                       Desahabilitado = respPer.Desahabilitado
-                    })
-                //.Where(p => p.Desahabilitado == true)
-                .ToList();
+                        Desahabilitado = respPer.Desahabilitado
+                    });
 
-            return Ok(query);
+            return await query.ToListAsync();
         }
-
 
         // GET: api/Personas/5
         [HttpGet("{id}")]
@@ -69,18 +66,12 @@ namespace GymnasioEticBack.Controllers
             return persona;
         }
 
-
-
-
-
-
         // PUT: api/Personas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPersona(int id, Persona persona)
         {
-            if (id != persona.IdUsuario)
+            if (id != persona.Id)
             {
                 return BadRequest();
             }
@@ -106,9 +97,49 @@ namespace GymnasioEticBack.Controllers
             return NoContent();
         }
 
+        // POST: api/Personas
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Persona>> PostPersona(Persona persona)
+        {
+          if (_context.Personas == null)
+          {
+              return Problem("Entity set 'BaseArreglaaContext.Personas'  is null.");
+          }
+            _context.Personas.Add(persona);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPersona", new { id = persona.Id }, persona);
+        }
+
+        // DELETE: api/Personas/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePersona(int id)
+        {
+            if (_context.Personas == null)
+            {
+                return NotFound();
+            }
+            var persona = await _context.Personas.FindAsync(id);
+            if (persona == null)
+            {
+                return NotFound();
+            }
+
+            _context.Personas.Remove(persona);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool PersonaExists(int id)
+        {
+            return (_context.Personas?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchPersona(int id, [FromBody] Persona persona)
+        public async Task<IActionResult> PatchPersona(int id, [FromBody] PersonaPatch persona)
         {
             if (persona == null)
             {
@@ -158,45 +189,5 @@ namespace GymnasioEticBack.Controllers
         }
 
 
-        // POST: api/Personas
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Persona>> PostPersona(Persona persona)
-        {
-          if (_context.Personas == null)
-          {
-
-              return Problem("Entity set 'NewGymEtitcContext.Personas'  is null.");
-          }
-            _context.Personas.Add(persona);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPersona", new { id = persona.IdUsuario }, persona);
-        }
-
-        // DELETE: api/Personas/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePersona(int id)
-        {
-            if (_context.Personas == null)
-            {
-                return NotFound();
-            }
-            var persona = await _context.Personas.FindAsync(id);
-            if (persona == null)
-            {
-                return NotFound();
-            }
-
-            _context.Personas.Remove(persona);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PersonaExists(int id)
-        {
-            return (_context.Personas?.Any(e => e.IdUsuario == id)).GetValueOrDefault();
-        }
     }
 }

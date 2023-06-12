@@ -16,9 +16,9 @@ namespace GymnasioEticBack.Controllers
     {
 
 
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public AuthController(NewGymEtitcContext context)
+        public AuthController(BaseArreglaaContext context)
         {
             _context = context;
         }

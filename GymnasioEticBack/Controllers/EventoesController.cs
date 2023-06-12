@@ -13,9 +13,9 @@ namespace GymnasioEticBack.Controllers
     [ApiController]
     public class EventoesController : ControllerBase
     {
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public EventoesController(NewGymEtitcContext context)
+        public EventoesController(BaseArreglaaContext context)
         {
             _context = context;
         }
@@ -24,6 +24,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Evento>>> GetEventos()
         {
+          if (_context.Eventos == null)
+          {
+              return NotFound();
+          }
             return await _context.Eventos.ToListAsync();
         }
 
@@ -31,6 +35,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Evento>> GetEvento(int id)
         {
+          if (_context.Eventos == null)
+          {
+              return NotFound();
+          }
             var evento = await _context.Eventos.FindAsync(id);
 
             if (evento == null)
@@ -77,6 +85,10 @@ namespace GymnasioEticBack.Controllers
         [HttpPost]
         public async Task<ActionResult<Evento>> PostEvento(Evento evento)
         {
+          if (_context.Eventos == null)
+          {
+              return Problem("Entity set 'BaseArreglaaContext.Eventos'  is null.");
+          }
             _context.Eventos.Add(evento);
             await _context.SaveChangesAsync();
 
@@ -87,6 +99,10 @@ namespace GymnasioEticBack.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvento(int id)
         {
+            if (_context.Eventos == null)
+            {
+                return NotFound();
+            }
             var evento = await _context.Eventos.FindAsync(id);
             if (evento == null)
             {
@@ -101,7 +117,7 @@ namespace GymnasioEticBack.Controllers
 
         private bool EventoExists(int id)
         {
-            return _context.Eventos.Any(e => e.IdEventos == id);
+            return (_context.Eventos?.Any(e => e.IdEventos == id)).GetValueOrDefault();
         }
     }
 }

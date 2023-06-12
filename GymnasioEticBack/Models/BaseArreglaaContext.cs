@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymnasioEticBack.Models;
 
-public partial class NewGymEtitcContext : DbContext
+public partial class BaseArreglaaContext : DbContext
 {
-    public NewGymEtitcContext()
+    public BaseArreglaaContext()
     {
     }
 
-    public NewGymEtitcContext(DbContextOptions<NewGymEtitcContext> options)
+    public BaseArreglaaContext(DbContextOptions<BaseArreglaaContext> options)
         : base(options)
     {
     }
@@ -35,27 +35,27 @@ public partial class NewGymEtitcContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-HJFI9OQ; Database=newGymETITC; Trusted_Connection=True; TrustServerCertificate=Yes ");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-HJFI9OQ; Database=BaseArreglaa; Trusted_Connection=True; TrustServerCertificate=Yes ");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Asistencium>(entity =>
         {
-            entity.HasKey(e => e.IdCita).HasName("PK__Asistenc__814F312621526AA8");
+            entity.HasKey(e => e.IdCita).HasName("PK__Asistenc__814F3126222347CE");
 
             entity.Property(e => e.IdCita).HasColumnName("idCita");
             entity.Property(e => e.FechaHora).HasColumnType("datetime");
-            entity.Property(e => e.UsuarioIdUsuario).HasColumnName("usuario_id_usuario");
+            entity.Property(e => e.PersonaId).HasColumnName("persona_ID");
 
-            entity.HasOne(d => d.UsuarioIdUsuarioNavigation).WithMany(p => p.Asistencia)
-                .HasForeignKey(d => d.UsuarioIdUsuario)
+            entity.HasOne(d => d.Persona).WithMany(p => p.Asistencia)
+                .HasForeignKey(d => d.PersonaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Asistenci__usuar__7D439ABD");
+                .HasConstraintName("FK__Asistenci__perso__33D4B598");
         });
 
         modelBuilder.Entity<Ejercicio>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Ejercici__3214EC077B1072EC");
+            entity.HasKey(e => e.Id).HasName("PK__Ejercici__3214EC077CB13DE0");
 
             entity.Property(e => e.EjercicioIdHerramienta).HasColumnName("Ejercicio_IdHerramienta");
             entity.Property(e => e.Maquina)
@@ -102,7 +102,7 @@ public partial class NewGymEtitcContext : DbContext
 
         modelBuilder.Entity<Evento>(entity =>
         {
-            entity.HasKey(e => e.IdEventos).HasName("PK__evento__19DEF4B9D61A3A15");
+            entity.HasKey(e => e.IdEventos).HasName("PK__evento__19DEF4B9B2B8B51E");
 
             entity.ToTable("evento");
 
@@ -116,12 +116,12 @@ public partial class NewGymEtitcContext : DbContext
                 .HasMaxLength(45)
                 .IsUnicode(false)
                 .HasColumnName("nombre");
-            entity.Property(e => e.UsuarioIdUsuario).HasColumnName("usuario_id_usuario");
+            entity.Property(e => e.PersonaId).HasColumnName("persona_ID");
 
-            entity.HasOne(d => d.UsuarioIdUsuarioNavigation).WithMany(p => p.Eventos)
-                .HasForeignKey(d => d.UsuarioIdUsuario)
+            entity.HasOne(d => d.Persona).WithMany(p => p.Eventos)
+                .HasForeignKey(d => d.PersonaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__evento__usuario___74AE54BC");
+                .HasConstraintName("FK__evento__persona___37A5467C");
         });
 
         modelBuilder.Entity<Herramientum>(entity =>
@@ -139,11 +139,11 @@ public partial class NewGymEtitcContext : DbContext
 
         modelBuilder.Entity<Persona>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Persona__4E3E04AD571497CF");
+            entity.HasKey(e => e.Id).HasName("PK__Persona__3214EC2719B035BB");
 
             entity.ToTable("Persona");
 
-            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Apellidos)
                 .HasMaxLength(45)
                 .IsUnicode(false)
@@ -172,27 +172,27 @@ public partial class NewGymEtitcContext : DbContext
             entity.HasOne(d => d.PersonaIdUsuarioNavigation).WithMany(p => p.Personas)
                 .HasForeignKey(d => d.PersonaIdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Persona__Persona__71D1E811");
+                .HasConstraintName("FK__Persona__Persona__38996AB5");
         });
 
         modelBuilder.Entity<PersonaHasRutina>(entity =>
         {
-            entity.HasKey(e => e.RutinasPersona).HasName("PK__Persona___60022F0720913032");
+            entity.HasKey(e => e.RutinasPersona).HasName("PK__Persona___60022F078B0F89B3");
 
             entity.ToTable("Persona_has_Rutina");
 
+            entity.Property(e => e.PersonaId).HasColumnName("persona_ID");
             entity.Property(e => e.RutinaId).HasColumnName("Rutina_Id");
-            entity.Property(e => e.UsuarioIdUsuario).HasColumnName("usuario_id_usuario");
+
+            entity.HasOne(d => d.Persona).WithMany(p => p.PersonaHasRutinas)
+                .HasForeignKey(d => d.PersonaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Persona_h__perso__3A81B327");
 
             entity.HasOne(d => d.Rutina).WithMany(p => p.PersonaHasRutinas)
                 .HasForeignKey(d => d.RutinaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Persona_h__Rutin__7A672E12");
-
-            entity.HasOne(d => d.UsuarioIdUsuarioNavigation).WithMany(p => p.PersonaHasRutinas)
-                .HasForeignKey(d => d.UsuarioIdUsuario)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Persona_h__usuar__797309D9");
         });
 
         modelBuilder.Entity<Rutina>(entity =>
@@ -213,7 +213,7 @@ public partial class NewGymEtitcContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__645723A6400B6A8E");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__645723A6F1861799");
 
             entity.ToTable("Usuario");
 

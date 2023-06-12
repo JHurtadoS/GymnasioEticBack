@@ -13,9 +13,9 @@ namespace GymnasioEticBack.Controllers
     [ApiController]
     public class EjerciciosController : ControllerBase
     {
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public EjerciciosController(NewGymEtitcContext context)
+        public EjerciciosController(BaseArreglaaContext context)
         {
             _context = context;
         }
@@ -24,6 +24,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ejercicio>>> GetEjercicios()
         {
+          if (_context.Ejercicios == null)
+          {
+              return NotFound();
+          }
             return await _context.Ejercicios.ToListAsync();
         }
 
@@ -31,6 +35,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Ejercicio>> GetEjercicio(int id)
         {
+          if (_context.Ejercicios == null)
+          {
+              return NotFound();
+          }
             var ejercicio = await _context.Ejercicios.FindAsync(id);
 
             if (ejercicio == null)
@@ -77,6 +85,10 @@ namespace GymnasioEticBack.Controllers
         [HttpPost]
         public async Task<ActionResult<Ejercicio>> PostEjercicio(Ejercicio ejercicio)
         {
+          if (_context.Ejercicios == null)
+          {
+              return Problem("Entity set 'BaseArreglaaContext.Ejercicios'  is null.");
+          }
             _context.Ejercicios.Add(ejercicio);
             await _context.SaveChangesAsync();
 
@@ -87,6 +99,10 @@ namespace GymnasioEticBack.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEjercicio(int id)
         {
+            if (_context.Ejercicios == null)
+            {
+                return NotFound();
+            }
             var ejercicio = await _context.Ejercicios.FindAsync(id);
             if (ejercicio == null)
             {
@@ -101,7 +117,7 @@ namespace GymnasioEticBack.Controllers
 
         private bool EjercicioExists(int id)
         {
-            return _context.Ejercicios.Any(e => e.Id == id);
+            return (_context.Ejercicios?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -13,9 +13,9 @@ namespace GymnasioEticBack.Controllers
     [ApiController]
     public class UsuariosController : ControllerBase
     {
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public UsuariosController(NewGymEtitcContext context)
+        public UsuariosController(BaseArreglaaContext context)
         {
             _context = context;
         }
@@ -24,6 +24,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
         {
+          if (_context.Usuarios == null)
+          {
+              return NotFound();
+          }
             return await _context.Usuarios.ToListAsync();
         }
 
@@ -31,6 +35,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Usuario>> GetUsuario(int id)
         {
+          if (_context.Usuarios == null)
+          {
+              return NotFound();
+          }
             var usuario = await _context.Usuarios.FindAsync(id);
 
             if (usuario == null)
@@ -77,6 +85,10 @@ namespace GymnasioEticBack.Controllers
         [HttpPost]
         public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
         {
+          if (_context.Usuarios == null)
+          {
+              return Problem("Entity set 'BaseArreglaaContext.Usuarios'  is null.");
+          }
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
 
@@ -87,6 +99,10 @@ namespace GymnasioEticBack.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUsuario(int id)
         {
+            if (_context.Usuarios == null)
+            {
+                return NotFound();
+            }
             var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario == null)
             {
@@ -99,32 +115,9 @@ namespace GymnasioEticBack.Controllers
             return NoContent();
         }
 
-
-        [HttpGet("nombre/{nombre}")]
-        public async Task<ActionResult<Usuario>> GetUsuarioPorNombre(string correo)
-        {
-            if (_context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios.FirstOrDefaultAsync(p => p.Correo == correo);
-
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return usuario;
-        }
-
-
-
-
-
         private bool UsuarioExists(int id)
         {
-            return _context.Usuarios.Any(e => e.IdUsuario == id);
+            return (_context.Usuarios?.Any(e => e.IdUsuario == id)).GetValueOrDefault();
         }
     }
 }

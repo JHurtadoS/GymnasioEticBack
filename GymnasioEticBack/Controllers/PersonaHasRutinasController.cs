@@ -13,9 +13,9 @@ namespace GymnasioEticBack.Controllers
     [ApiController]
     public class PersonaHasRutinasController : ControllerBase
     {
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public PersonaHasRutinasController(NewGymEtitcContext context)
+        public PersonaHasRutinasController(BaseArreglaaContext context)
         {
             _context = context;
         }
@@ -87,7 +87,7 @@ namespace GymnasioEticBack.Controllers
         {
           if (_context.PersonaHasRutinas == null)
           {
-              return Problem("Entity set 'NewGymEtitcContext.PersonaHasRutinas'  is null.");
+              return Problem("Entity set 'BaseArreglaaContext.PersonaHasRutinas'  is null.");
           }
             _context.PersonaHasRutinas.Add(personaHasRutina);
             await _context.SaveChangesAsync();

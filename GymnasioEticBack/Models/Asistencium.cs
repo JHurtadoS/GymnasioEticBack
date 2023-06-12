@@ -9,7 +9,7 @@ public partial class Asistencium
 
     public DateTime? FechaHora { get; set; }
 
-    public int UsuarioIdUsuario { get; set; }
+    public int PersonaId { get; set; }
 
-    public virtual Persona? UsuarioIdUsuarioNavigation { get; set; } = null!;
+    public virtual Persona? Persona { get; set; } = null!;
 }

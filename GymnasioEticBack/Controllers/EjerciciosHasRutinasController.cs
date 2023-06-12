@@ -13,9 +13,9 @@ namespace GymnasioEticBack.Controllers
     [ApiController]
     public class EjerciciosHasRutinasController : ControllerBase
     {
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public EjerciciosHasRutinasController(NewGymEtitcContext context)
+        public EjerciciosHasRutinasController(BaseArreglaaContext context)
         {
             _context = context;
         }
@@ -24,6 +24,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EjerciciosHasRutina>>> GetEjerciciosHasRutinas()
         {
+          if (_context.EjerciciosHasRutinas == null)
+          {
+              return NotFound();
+          }
             return await _context.EjerciciosHasRutinas.ToListAsync();
         }
 
@@ -31,6 +35,10 @@ namespace GymnasioEticBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EjerciciosHasRutina>> GetEjerciciosHasRutina(int id)
         {
+          if (_context.EjerciciosHasRutinas == null)
+          {
+              return NotFound();
+          }
             var ejerciciosHasRutina = await _context.EjerciciosHasRutinas.FindAsync(id);
 
             if (ejerciciosHasRutina == null)
@@ -77,6 +85,10 @@ namespace GymnasioEticBack.Controllers
         [HttpPost]
         public async Task<ActionResult<EjerciciosHasRutina>> PostEjerciciosHasRutina(EjerciciosHasRutina ejerciciosHasRutina)
         {
+          if (_context.EjerciciosHasRutinas == null)
+          {
+              return Problem("Entity set 'BaseArreglaaContext.EjerciciosHasRutinas'  is null.");
+          }
             _context.EjerciciosHasRutinas.Add(ejerciciosHasRutina);
             await _context.SaveChangesAsync();
 
@@ -87,6 +99,10 @@ namespace GymnasioEticBack.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEjerciciosHasRutina(int id)
         {
+            if (_context.EjerciciosHasRutinas == null)
+            {
+                return NotFound();
+            }
             var ejerciciosHasRutina = await _context.EjerciciosHasRutinas.FindAsync(id);
             if (ejerciciosHasRutina == null)
             {
@@ -101,7 +117,7 @@ namespace GymnasioEticBack.Controllers
 
         private bool EjerciciosHasRutinaExists(int id)
         {
-            return _context.EjerciciosHasRutinas.Any(e => e.RutinaEjercicio == id);
+            return (_context.EjerciciosHasRutinas?.Any(e => e.RutinaEjercicio == id)).GetValueOrDefault();
         }
     }
 }

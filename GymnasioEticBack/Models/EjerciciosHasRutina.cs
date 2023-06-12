@@ -15,7 +15,7 @@ public partial class EjerciciosHasRutina
 
     public int RutinaId { get; set; }
 
-    public virtual Herramientum? Ejercicios { get; set; } = null!;
+    public virtual Herramientum Ejercicios { get; set; } = null!;
 
-    public virtual Rutina? Rutina { get; set; } = null!;
+    public virtual Rutina Rutina { get; set; } = null!;
 }

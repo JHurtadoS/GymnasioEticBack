@@ -13,9 +13,9 @@ namespace GymnasioEticBack.Controllers
     [ApiController]
     public class HerramientumsController : ControllerBase
     {
-        private readonly NewGymEtitcContext _context;
+        private readonly BaseArreglaaContext _context;
 
-        public HerramientumsController(NewGymEtitcContext context)
+        public HerramientumsController(BaseArreglaaContext context)
         {
             _context = context;
         }
@@ -87,7 +87,7 @@ namespace GymnasioEticBack.Controllers
         {
           if (_context.Herramienta == null)
           {
-              return Problem("Entity set 'NewGymEtitcContext.Herramienta'  is null.");
+              return Problem("Entity set 'BaseArreglaaContext.Herramienta'  is null.");
           }
             _context.Herramienta.Add(herramientum);
             await _context.SaveChangesAsync();

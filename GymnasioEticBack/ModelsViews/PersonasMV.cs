@@ -3,9 +3,12 @@ namespace GymnasioEticBack.ModelsViews
 {
     public class PersonasMV 
     {
-        public int IdUsuario { get; set; }
 
-        public string PersonaIdUsuario { get; set; }
+        public string correoUsuario { get; set; }
+
+        public int Id { get; set; }
+
+        //public int PersonaIdUsuario { get; set; }
 
         public int? Documento { get; set; }
 
