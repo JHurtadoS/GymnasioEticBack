@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GymnasioEticBack.Models;
+using GymnasioEticBack.ModelsViews;
 
 namespace GymnasioEticBack.Controllers
 {
@@ -22,14 +23,26 @@ namespace GymnasioEticBack.Controllers
 
         // GET: api/Ejercicios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ejercicio>>> GetEjercicios()
+        public object getInnerJoint()
         {
-          if (_context.Ejercicios == null)
-          {
-              return NotFound();
-          }
-            return await _context.Ejercicios.ToListAsync();
+
+            var query = _context.Ejercicios.Join(_context.Personas, ejercicios => ejercicios.EjercicioIdHerramienta, per => per.Id, (respEjer, respPer) => new
+            EjercicioMV
+            {
+                Id = respEjer.Id,
+                VideoAsociado = respEjer.VideoAsociado,
+                Nombre = respEjer.Nombre,
+                Tipo = respEjer.Tipo,
+                Ncalorias = respEjer.Ncalorias,
+                Maquina = respEjer.Maquina,
+                EjercicioIdHerramienta = respPer.Nombre
+
+
+            }).ToList();
+
+            return Ok(query);
         }
+
 
         // GET: api/Ejercicios/5
         [HttpGet("{id}")]

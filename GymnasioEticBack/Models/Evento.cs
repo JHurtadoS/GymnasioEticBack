@@ -9,11 +9,11 @@ public partial class Evento
 
     public string? Nombre { get; set; }
 
-    public DateTime? Fecha { get; set; }
+    public string? Fecha { get; set; }
 
-    public TimeSpan? HoraInicio { get; set; }
+    public string? HoraInicio { get; set; }
 
-    public TimeSpan? HoraSalida { get; set; }
+    public string? HoraSalida { get; set; }
 
     public int PersonaId { get; set; }
 

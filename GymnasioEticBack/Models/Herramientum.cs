@@ -11,7 +11,7 @@ public partial class Herramientum
 
     public string? Descripcion { get; set; }
 
-    public byte[]? ImagenAsociada { get; set; }
+    public string? ImagenAsociada { get; set; }
 
     public virtual ICollection<Ejercicio>? Ejercicios { get; } = new List<Ejercicio>();
 
