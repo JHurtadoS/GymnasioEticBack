@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GymnasioEticBack.Models;
+using GymnasioEticBack.ModelsViews;
 
 namespace GymnasioEticBack.Controllers
 {
@@ -20,15 +21,22 @@ namespace GymnasioEticBack.Controllers
             _context = context;
         }
 
+
         // GET: api/Asistenciums
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Asistencium>>> GetAsistencia()
+        public object getInnerJoint()
         {
-          if (_context.Asistencia == null)
-          {
-              return NotFound();
-          }
-            return await _context.Asistencia.ToListAsync();
+
+            var query = _context.Asistencia.Join(_context.Personas, asistencia => asistencia.PersonaId, per => per.Id, (respAsis, respPer) => new
+            AsistenciaMV
+            {
+                IdCita = respAsis.IdCita,
+                FechaHora = respAsis.FechaHora,
+                PersonaId = respPer.Nombre
+
+            }).ToList();
+
+            return query;
         }
 
         // GET: api/Asistenciums/5

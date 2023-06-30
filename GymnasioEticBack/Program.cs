@@ -20,7 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<BaseArreglaaContext>(options => options.UseSqlServer("Server=DESKTOP-HJFI9OQ;Database=BaseArreglaa;Trusted_Connection=True;MultipleActiveResultSets=true"));
+builder.Services.AddDbContext<BaseArreglaaContext>(options => options.UseSqlServer("Server=DESKTOP-61E7BTQ\\SQLEXPRESS;Database=BaseArreglaa;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
 var app = builder.Build();
 app.UseCors();

@@ -7,7 +7,7 @@ public partial class Asistencium
 {
     public int IdCita { get; set; }
 
-    public DateTime? FechaHora { get; set; }
+    public string? FechaHora { get; set; }
 
     public int PersonaId { get; set; }
 
